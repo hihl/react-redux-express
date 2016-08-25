@@ -13,4 +13,6 @@ const makeDir = (name) => new Promise((resolve, reject) => {
   mkdirp(name, err => err ? reject(err) : resolve());
 });
 
-export default { writeFile, makeDir };
+const existsSync = file => fs.existsSync(file);
+
+export default { writeFile, makeDir, existsSync };

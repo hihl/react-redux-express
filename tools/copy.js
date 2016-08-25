@@ -9,8 +9,8 @@ import Promise from 'bluebird';
 
 async function copy({ watch } = {}) {
   const ncp = Promise.promisify(require('ncp'));
-  if (!fs.existSync('dist')) {
-    await fs.mkDir('dist');
+  if (!fs.existsSync('dist')) {
+    await fs.makeDir('dist');
   }
 
   await Promise.all([
