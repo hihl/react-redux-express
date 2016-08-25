@@ -4,10 +4,14 @@
 import path from 'path';
 import gaze from 'gaze';
 import replace from 'replace';
+import fs from './lib/fs';
 import Promise from 'bluebird';
 
 async function copy({ watch } = {}) {
   const ncp = Promise.promisify(require('ncp'));
+  if (!fs.existSync('dist')) {
+    await fs.mkDir('dist');
+  }
 
   await Promise.all([
     ncp('src/public', 'dist/public'),
