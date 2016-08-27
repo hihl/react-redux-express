@@ -10,6 +10,8 @@ import http from 'http';
 import PrettyError from 'pretty-error';
 import assets from './assets';
 import userConfig from '../config.json5';
+import renderViews from './renderViews';
+
 global.navigator = global.navigator || {};
 global.navigator.userAgent = global.navigator.userAgent || 'all';
 
@@ -25,6 +27,7 @@ server.use(cookieParser());
 server.use(bodyParser.urlencoded({ extended: true }));
 server.use(bodyParser.json());
 server.config = config;
+renderViews(server);
 
 server.listen(config.port, () => {
   console.log(`The server is running at http://${config.host}:${config.port}/`);

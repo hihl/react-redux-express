@@ -77,10 +77,10 @@ const config = {
         test: /\.txt$/,
         loader: 'raw-loader',
       }, {
-        test: /\.(png|jpg|jpeg|gif|svg|woff|woff2)$/,
+        test: /\.(svg|jpe?g|png|gif)(\?.*)?$/,
         loader: 'url-loader?limit=10000',
       }, {
-        test: /\.(eot|ttf|wav|mp3)$/,
+        test: /\.(woff\d?|ttf|eot)(\?.*)?$/,
         loader: 'file-loader',
       },
     ],
@@ -101,7 +101,8 @@ const config = {
 
 const clientConfig = extend(true, {}, config, {
   entry: {
-    core: ['react', 'react-dom', 'redux', 'react-redux', 'redux-thunk', 'redux-logger'],
+    core: ['react', 'react-dom', 'redux', 'react-redux', 'redux-thunk', 'redux-logger',
+        'redux-devtools-log-monitor', 'redux-devtools', 'redux-devtools-dock-monitor'],
     lib: ['lodash', 'moment'],
     client: './src/client.js'
   },
@@ -134,7 +135,11 @@ const clientConfig = extend(true, {}, config, {
   },
   plugins: [
     ...config.plugins,
-    new webpack.DefinePlugin({ ...GLOBALS, 'process.env.BROWSER': true }),
+    new webpack.DefinePlugin({
+      ...GLOBALS,
+      'process.env.BROWSER': true,
+      __BROWSER__: true
+    }),
     new AssetsPlugin({
       path: path.join(__dirname, '../build'),
       filename: 'assets.js',
@@ -203,7 +208,11 @@ const serverConfig = extend(true, {}, config, {
   },
   plugins: [
     ...config.plugins,
-    new webpack.DefinePlugin({ ...GLOBALS, 'process.env.BROWSER': false }),
+    new webpack.DefinePlugin({
+      ...GLOBALS,
+      'process.env.BROWSER': false,
+      __BROWSER__: false
+    }),
     new webpack.BannerPlugin('require("source-map-support").install();',
       { raw: true, entryOnly: false }),
   ],
