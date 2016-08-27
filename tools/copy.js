@@ -1,39 +1,50 @@
 /**
- * Created by Zhengfeng Yao on 16/8/24.
- */
+  * Created by Zhengfeng Yao on 16/8/24.
+  */
 import path from 'path';
 import gaze from 'gaze';
 import replace from 'replace';
 import fs from './lib/fs';
 import Promise from 'bluebird';
 
+/**
+ * Copies static files such as favicon.ico to the
+ * output (build) folder.
+ */
 async function copy({ watch } = {}) {
   const ncp = Promise.promisify(require('ncp'));
-  if (!fs.existsSync('dist')) {
-    await fs.makeDir('dist');
+  if (!fs.existsSync('build')) {
+    await fs.makeDir('build');
   }
 
   await Promise.all([
-    ncp('src/public', 'dist/public'),
-    ncp('src/templates', 'dist/templates'),
-    ncp('package.json', 'dist/package.json')
+    ncp('src/public', 'build/public'),
+    ncp('src/content', 'build/content'),
+    ncp('package.json', 'build/package.json'),
   ]);
 
   replace({
     regex: '"start".*',
     replacement: '"start": "node server.js"',
-    paths: ['dist/package.json'],
+    paths: ['build/package.json'],
     recursive: false,
     silent: false,
   });
 
   if (watch) {
-    const watcher = await new Promise((resolve, reject) => {
-      gaze(['src/public/*', 'src/templates/*'], (err, val) => err ? reject(err) : resolve(val));
+    const contentWatcher = await new Promise((resolve, reject) => {
+      gaze('src/content/**/*.*', (err, val) => err ? reject(err) : resolve(val));
     });
-    watcher.on('changed', async file => {
-      const relPath = file.substr(path.join(__dirname, '../src').length);
-      await ncp(`src/${relPath}`, `dist/${relPath}`);
+    contentWatcher.on('changed', async (file) => {
+      const relPath = file.substr(path.join(__dirname, '../src/content/').length);
+      await ncp(`src/content/${relPath}`, `build/content/${relPath}`);
+    });
+    const publicWatcher = await new Promise((resolve, reject) => {
+      gaze('src/public/**/*.*', (err, val) => err ? reject(err) : resolve(val));
+    });
+    publicWatcher.on('changed', async (file) => {
+      const relPath = file.substr(path.join(__dirname, '../src/public/').length);
+      await ncp(`src/public/${relPath}`, `build/public/${relPath}`);
     });
   }
 }

@@ -10,7 +10,7 @@ Thumbs.db
 ehthumbs.db
 Desktop.ini
 $RECYCLE.BIN/
-node_modules/
+node_modules
 npm-debug.log
 .idea/
-dist
+build

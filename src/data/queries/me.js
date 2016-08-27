@@ -7,8 +7,16 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-import http from 'http';
+import UserType from '../types/UserType';
 
-export default async (url) => new Promise((resolve, reject) =>
-    http.get(url, res => resolve(res)).on('error', err => reject(err))
-);
+const me = {
+  type: UserType,
+  resolve({ request }) {
+    return request.user && {
+      id: request.user.id,
+      email: request.user.email,
+    };
+  },
+};
+
+export default me;

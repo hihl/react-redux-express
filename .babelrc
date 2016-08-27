@@ -7,8 +7,6 @@
   ],
   "plugins": [
     "transform-runtime",
-    "transform-decorators-legacy",
-    "transform-es3-property-literals",
-    "transform-es3-member-expression-literals"
+    "transform-decorators-legacy"
   ]
 }

@@ -1,6 +1,6 @@
 /**
- * Created by Zhengfeng Yao on 16/8/24.
- */
+  * Created by Zhengfeng Yao on 16/8/24.
+  */
 function format(time) {
   return time.toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, '$1');
 }

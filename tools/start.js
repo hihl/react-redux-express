@@ -1,6 +1,6 @@
 /**
- * Created by Zhengfeng Yao on 16/8/24.
- */
+  * Created by Zhengfeng Yao on 16/8/24.
+  */
 import Browsersync from 'browser-sync';
 import webpack from 'webpack';
 import webpackMiddleware from 'webpack-middleware';
@@ -26,10 +26,16 @@ async function start() {
     webpackConfig.filter(x => x.target !== 'node').forEach(config => {
       if (Array.isArray(config.entry)) {
         config.entry.unshift('webpack-hot-middleware/client');
+      } else if (config.entry.constructor == Object) {
+        Object.keys(config.entry).forEach(key => {
+          if (Array.isArray(config.entry[key])) {
+            config.entry[key].unshift('webpack-hot-middleware/client');
+          } else {
+            config.entry[key] = ['webpack-hot-middleware/client', config.entry[key]];
+          }
+        });
       } else {
-        /* eslint-disable no-param-reassign */
         config.entry = ['webpack-hot-middleware/client', config.entry];
-        /* eslint-enable no-param-reassign */
       }
 
       config.plugins.push(new webpack.HotModuleReplacementPlugin());
@@ -37,7 +43,7 @@ async function start() {
       config
         .module
         .loaders
-        .filter(x => x.loader.indexOf('babel') !== -1)
+        .filter(x => x.loader === 'babel-loader')
         .forEach(x => (x.query = { // eslint-disable-line no-param-reassign
           // Wraps all React components into arbitrary transforms
           // https://github.com/gaearon/babel-plugin-react-transform
@@ -91,7 +97,7 @@ async function start() {
 
             // no need to watch '*.js' here, webpack will take care of it for us,
             // including full page reloads if HMR won't work
-            files: ['dist/templates/*', 'dist/public/*'],
+            files: ['build/content/**/*.*', 'build/public/**/*.*'],
           }, resolve);
           handleServerBundleComplete = runServer;
         }

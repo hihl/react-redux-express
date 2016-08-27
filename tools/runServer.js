@@ -1,23 +1,19 @@
 /**
- * Created by Zhengfeng Yao on 16/8/24.
- */
+  * Created by Zhengfeng Yao on 16/8/24.
+  */
 import path from 'path';
 import cp from 'child_process';
 import webpackConfig from './webpack.config';
 
+// Should match the text string used in `src/server.js/server.listen(...)`
 const RUNNING_REGEXP = /The server is running at http:\/\/(.*?)\//;
 
 let server;
 const { output } = webpackConfig.find(x => x.target === 'node');
 const serverPath = path.join(output.path, output.filename);
 
-process.on('exit', () => {
-  if (server) {
-    server.kill('SIGTERM');
-  }
-});
-
-export default function runServer(cb) {
+// Launch or restart the Node.js server
+function runServer(cb) {
   function onStdOut(data) {
     const time = new Date().toTimeString();
     const match = data.toString('utf8').match(RUNNING_REGEXP);
@@ -46,3 +42,11 @@ export default function runServer(cb) {
   server.stdout.on('data', onStdOut);
   server.stderr.on('data', x => process.stderr.write(x));
 }
+
+process.on('exit', () => {
+  if (server) {
+    server.kill('SIGTERM');
+  }
+});
+
+export default runServer;
