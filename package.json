@@ -1,6 +1,6 @@
 {
   "name": "react-redux-express",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "engines": {
     "node": ">=5.0 <7",
     "npm": ">=3.3 <4"
@@ -13,8 +13,13 @@
     "redux",
     "es6",
     "less",
+    "scss",
     "webpack",
-    "react-router"
+    "react-router",
+    "karma",
+    "mocha",
+    "chai",
+    "PhantomJS"
   ],
   "author": {
     "name": "Zhengfeng Yao",
