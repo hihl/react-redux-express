@@ -12,6 +12,10 @@ import DevTools from '../devtools';
 
 const store = createStore(reducers);
 
+function render(config) {
+  return require(`./views/default.est`)(config);
+}
+
 export default function init(server) {
   server.get('*', (req, res) => {
     match({ routes, location: req.url }, (err, redirectLocation, props) => {
@@ -30,7 +34,7 @@ export default function init(server) {
             </div>
           </Provider>
         );
-        res.send();
+        res.send(render(server.config));
       } else {
         res.sendStatus(404);
       }

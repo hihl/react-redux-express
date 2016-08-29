@@ -6,6 +6,6 @@ import cc from './home.less';
 
 export default function Home() {
   return (
-    <div className={cc.home}></div>
+    <div className={cc.home}>test</div>
   );
 }

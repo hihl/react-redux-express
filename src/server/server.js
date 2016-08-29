@@ -19,7 +19,7 @@ const config = Object.assign({
   assets,
   host: 'localhost',
   port: 3000,
-  static: `${userConfig.public}/s`
+  public: `${userConfig.hostname}`
 }, userConfig);
 const server = global.server = new express();
 server.use(express.static(path.join(__dirname, '../public')));

@@ -82,7 +82,10 @@ const config = {
       }, {
         test: /\.(woff\d?|ttf|eot)(\?.*)?$/,
         loader: 'file-loader',
-      },
+      }, {
+        test: /\.est$/,
+        loader: 'babel-loader!template-string-loader'
+      }
     ],
   },
 

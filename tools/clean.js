@@ -10,7 +10,6 @@ import fs from './lib/fs';
 async function clean() {
   await del(['.tmp', 'build/*', '!build/.git'], { dot: true });
   await fs.makeDir('build/public');
-  await fs.makeDir('build/content');
 }
 
 export default clean;

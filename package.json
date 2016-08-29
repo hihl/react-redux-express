@@ -67,6 +67,7 @@
     "redux-logger": "2.6.1",
     "redux-thunk": "2.1.0",
     "source-map-support": "0.4.2",
+    "template-string-loader": "0.0.3",
     "whatwg-fetch": "1.0.0"
   },
   "devDependencies": {

@@ -43,7 +43,7 @@ async function start() {
       config
         .module
         .loaders
-        .filter(x => x.loader === 'babel-loader')
+        .filter(x => x.loader.indexOf('babel-loader') !== -1)
         .forEach(x => (x.query = { // eslint-disable-line no-param-reassign
           // Wraps all React components into arbitrary transforms
           // https://github.com/gaearon/babel-plugin-react-transform
@@ -97,7 +97,7 @@ async function start() {
 
             // no need to watch '*.js' here, webpack will take care of it for us,
             // including full page reloads if HMR won't work
-            files: ['build/content/**/*.*', 'build/public/**/*.*'],
+            files: ['build/public/**/*.*'],
           }, resolve);
           handleServerBundleComplete = runServer;
         }

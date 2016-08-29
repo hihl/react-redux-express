@@ -5,14 +5,21 @@ import 'babel-polyfill';
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import domReady from 'domready';
+import reducers from './reducers';
 import { Provider } from 'react-redux';
 import { Router, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
-import reducers from './reducers';
 import { createStore } from './utils';
 import routes from './routes';
 import DevTools from './devtools';
 const store = createStore(reducers);
+if (module.hot) {
+  module.hot.accept('./reducers', () => {
+    const nextRootReducer = require('./reducers/index').default;
+    console.log('fdsssfd');
+    store.replaceReducer(nextRootReducer);
+  });
+}
 
 function windowHeight() {
   var de = document.documentElement;
