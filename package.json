@@ -114,6 +114,7 @@
     "mocha": "^3.0.2",
     "ncp": "^2.0.0",
     "null-loader": "^0.1.1",
+    "open": "0.0.5",
     "phantomjs-prebuilt": "^2.1.12",
     "postcss": "^5.1.2",
     "postcss-import": "^8.1.2",
@@ -133,7 +134,7 @@
   },
   "scripts": {
     "test": "babel-node tools/run test",
-    "test:watch": "babel-node tools/run testWatch",
+    "test:watch": "babel-node tools/run test --watch --detail",
     "clean": "babel-node tools/run clean",
     "copy": "babel-node tools/run copy",
     "bundle": "babel-node tools/run bundle",

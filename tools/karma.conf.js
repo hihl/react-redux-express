@@ -10,7 +10,6 @@ module.exports = config => {
     files: [
       'test/loadClientTests.js'
     ],
-    port: 3000,
     captureTimeout: 60000,
     frameworks: [ 'mocha', 'chai' ],
     client: {
@@ -24,10 +23,9 @@ module.exports = config => {
     coverageReporter: {
       dir: 'coverage/',
       reporters: [
-        { type: 'html' },
+        { type: 'html', subdir: '.' },
         { type: 'text' }
       ]
-    },
-    logLevel: 'LOG_DEBUG'
+    }
   });
 }
