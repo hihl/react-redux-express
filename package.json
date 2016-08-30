@@ -14,6 +14,7 @@
     "es6",
     "less",
     "scss",
+    "stylus",
     "webpack",
     "react-router",
     "karma",
@@ -48,6 +49,7 @@
     "morgan": "1.7.0",
     "node-fetch": "1.6.0",
     "normalize.css": "4.2.0",
+    "pm2": "^1.1.3",
     "pretty-error": "2.0.0",
     "rc-calendar": "7.0.2",
     "rc-checkbox": "1.4.1",
@@ -136,6 +138,9 @@
     "webpack-hot-middleware": "^2.12.2",
     "webpack-middleware": "^1.5.1"
   },
+  "bin": {
+    "pm2": "./node_modules/pm2/bin/pm2"
+  },
   "scripts": {
     "test": "babel-node tools/run test",
     "test:watch": "babel-node tools/run test --watch --detail",
@@ -143,6 +148,13 @@
     "copy": "babel-node tools/run copy",
     "bundle": "babel-node tools/run bundle",
     "build": "babel-node tools/run build",
-    "start": "babel-node tools/run start"
+    "start:dev": "babel-node tools/run start",
+    "start": "pm2 start process.json",
+    "stop": "pm2 stop process.json",
+    "restart": "pm2 restart process.json",
+    "delete": "pm2 delete process.json",
+    "pm2monit": "pm2 monit",
+    "pm2logs": "pm2 logs",
+    "pm2flush": "pm2 flush"
   }
 }

@@ -34,7 +34,7 @@ export default function init(server) {
             </div>
           </Provider>
         );
-        res.send(render(server.config));
+        res.send(render(Object.assign({markup}, server.config)));
       } else {
         res.sendStatus(404);
       }
