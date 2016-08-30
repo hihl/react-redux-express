@@ -91,9 +91,11 @@ const config = {
 
   postcss: function plugins(bundler) {
     return [
-      require('postcss-import')({ addDependencyTo: bundler }),
-      require('precss')(),
+      require('postcss-nested')(),
+      require('pixrem')(),
       require('autoprefixer')({ browsers: AUTOPREFIXER_BROWSERS }),
+      require('postcss-flexibility')(),
+      require('postcss-discard-duplicates')()
     ];
   },
 };
@@ -124,13 +126,21 @@ const clientConfig = extend(true, {}, config, {
       , {
         test: /\.scss$/,
         loader: ExtractTextPlugin.extract('style',
-          `css?${DEBUG ? 'sourceMap&' : 'minimize&'}modules&localIdentName=[local]!postcss?parser=postcss-scss`)
+          `css?${DEBUG ? 'sourceMap&' : 'minimize&'}modules&localIdentName=[local]!postcss!sass`)
+      },{
+        test: /\.sass$/,
+        loader: ExtractTextPlugin.extract('style',
+          `css?${DEBUG ? 'sourceMap&' : 'minimize&'}modules&localIdentName=[local]!postcss!sass`)
+      },{
+        test: /\.styl$/,
+        loader: ExtractTextPlugin.extract('style',
+          `css?${DEBUG ? 'sourceMap&' : 'minimize&'}modules&localIdentName=[local]!postcss!stylus`)
       }, {
-        test: /\.less/,
+        test: /\.less$/,
         loader: ExtractTextPlugin.extract('style',
           `css?${DEBUG ? 'sourceMap&' : 'minimize&'}modules&localIdentName=[local]!postcss!less`),
       }, {
-        test: /\.css/,
+        test: /\.css$/,
         loader: ExtractTextPlugin.extract('style',
           `css?${DEBUG ? 'sourceMap&' : 'minimize&'}modules&localIdentName=[local]!postcss`),
       },
@@ -199,13 +209,19 @@ const serverConfig = extend(true, {}, config, {
       ...config.module.loaders
       , {
         test: /\.scss$/,
-        loader: `css?${DEBUG ? 'sourceMap&' : 'minimize&'}modules&localIdentName=[local]!postcss?parser=postcss-scss`
+        loader: `css/locals?${DEBUG ? 'sourceMap&' : 'minimize&'}modules&localIdentName=[local]!postcss!sass`
+      },{
+        test: /\.sass$/,
+        loader: `css/locals?${DEBUG ? 'sourceMap&' : 'minimize&'}modules&localIdentName=[local]!postcss!sass`
+      },{
+        test: /\.styl/,
+        loader: `css/locals?${DEBUG ? 'sourceMap&' : 'minimize&'}modules&localIdentName=[local]!postcss!stylus`
       }, {
-        test: /\.less/,
-        loader: `css?${DEBUG ? 'sourceMap&' : 'minimize&'}modules&localIdentName=[local]!postcss!less`
+        test: /\.less$/,
+        loader: `css/locals?${DEBUG ? 'sourceMap&' : 'minimize&'}modules&localIdentName=[local]!postcss!less`
       }, {
-        test: /\.css/,
-        loader: `css?${DEBUG ? 'sourceMap&' : 'minimize&'}modules&localIdentName=[local]!postcss`
+        test: /\.css$/,
+        loader: `css/locals?${DEBUG ? 'sourceMap&' : 'minimize&'}modules&localIdentName=[local]!postcss`
       },
     ]
   },

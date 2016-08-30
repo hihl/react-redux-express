@@ -22,7 +22,7 @@ const config = Object.assign({
   public: `${userConfig.hostname}`
 }, userConfig);
 const server = global.server = new express();
-server.use(express.static(path.join(__dirname, '../public')));
+server.use(express.static(path.join(__dirname, 'public')));
 server.use(cookieParser());
 server.use(bodyParser.urlencoded({ extended: true }));
 server.use(bodyParser.json());
