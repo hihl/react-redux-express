@@ -6,6 +6,7 @@ import webpack from 'webpack';
 import extend from 'extend';
 import AssetsPlugin from 'assets-webpack-plugin';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
+import ProgressBarPlugin from 'progress-bar-webpack-plugin';
 
 const DEBUG = !process.argv.includes('--release');
 const VERBOSE = process.argv.includes('--verbose');
@@ -51,6 +52,7 @@ const config = {
   },
 
   plugins: [
+    new ProgressBarPlugin(),
     new webpack.optimize.OccurenceOrderPlugin(),
   ],
 
