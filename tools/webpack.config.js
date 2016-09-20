@@ -105,6 +105,7 @@ const config = {
 //
 // Configuration for the client-side bundle (client.js)
 // -----------------------------------------------------------------------------
+const fileName = DEBUG ? '[name].js?[hash]' : '[name].[hash].js';
 
 const clientConfig = extend(true, {}, config, {
   entry: {
@@ -115,7 +116,7 @@ const clientConfig = extend(true, {}, config, {
   },
   output: {
     path: path.join(__dirname, '../build/public'),
-    filename: DEBUG ? '[name].js?[hash]' : '[name].[hash].js',
+    filename: fileName,
     chunkFilename: '[hash].chunk.js',
   },
 
@@ -159,6 +160,10 @@ const clientConfig = extend(true, {}, config, {
       path: path.join(__dirname, '../build'),
       filename: 'assets.js',
       processOutput: x => `module.exports = ${JSON.stringify(x)};`,
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: ['core', 'lib'],
+      filename: fileName,
     }),
     new ExtractTextPlugin(DEBUG ? '[name].css?[hash]' : '[name].[hash].css'),
     ...(!DEBUG ? [
